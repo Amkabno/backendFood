@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-  email: String,
+  email: {
+    type: String,
+    required: true,
+  },
   password: String,
   phoneNumber: String,
-  address: String,
+  address: {
+    type: String,
+    min: 8,
+  },
   isVerified: Boolean,
   createdAt: {
     type: Date,
@@ -12,6 +18,11 @@ const userSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now,
+  },
+  role: {
+    type: String,
+    enum: ["User", "Admin"],
+    default: "User",
   },
 });
 
