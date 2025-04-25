@@ -1,5 +1,12 @@
 import express from "express";
-import { createFood, getFoodsByCategoryId } from "../controller/food.js";
+import {
+  createFood,
+  getFoodsByCategoryId,
+  getFood,
+} from "../controller/food.js";
 
 export const foodRouter = express.Router();
-foodRouter.post("/", createFood).get("/:id", getFoodsByCategoryId);
+foodRouter
+  .post("/", createFood)
+  .get("/", getFood)
+  .get("/:id", getFoodsByCategoryId);

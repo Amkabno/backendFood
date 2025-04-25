@@ -22,6 +22,28 @@ export const createFood = async (req, res) => {
   }
 };
 
+export const getFood = async (_, res) => {
+  try {
+    const categories = await FoodModel.find();
+    return res
+      .status(200)
+      .send({
+        success: true,
+        categories: categories,
+      })
+      .end();
+  } catch (error) {
+    console.error(error, "err");
+    return res
+      .status(400)
+      .send({
+        success: false,
+        message: error,
+      })
+      .end();
+  }
+};
+
 export const getFoodsByCategoryId = async (req, res) => {
   const { id } = req.params;
   try {
