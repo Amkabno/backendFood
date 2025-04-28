@@ -1,4 +1,5 @@
 import { FoodModel } from "../model/food.js";
+import { CategoryModel } from "../model/category.js";
 
 export const createFood = async (req, res) => {
   try {
@@ -45,9 +46,23 @@ export const getFood = async (_, res) => {
 };
 
 export const getFoodsByCategoryId = async (req, res) => {
-  const { id } = req.params;
   try {
-    const foods = await FoodModel.find({ category: id }).populate("category");
+    const foods = await CategoryModel.aggregate([
+      {
+        $lookup: {
+          from: "foods",
+          localField: "_id",
+          foreignField: "category",
+          as: "result",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          result: 1,
+        },
+      },
+    ]);
     return res
       .status(200)
       .send({
